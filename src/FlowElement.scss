@@ -1,0 +1,14 @@
+.info-slider{
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	top: 20vh;
+	right: 0;
+	z-index: 10;
+	visibility: visible;
+
+	&--hidden{
+		visibility: hidden;
+	}
+
+}
