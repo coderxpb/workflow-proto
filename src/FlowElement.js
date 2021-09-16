@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import ReactFlow, {Controls, updateEdge, addEdge} from 'react-flow-renderer';
 import './FlowElement.scss';
 import {EmailNode, ReminderNode, MeetingNode} from './components/CustomNodes';
@@ -16,6 +16,7 @@ const initialElements = [
 const FlowElement = () => {
 	const [elements, setElements] = useState(initialElements);
 
+	
 	const [inputDateTime, setInputDateTime] = useState("");
 	const [inputToEmail, setInputToEmail] = useState("");
 	const [inputFromEmail, setInputFromEmail] = useState("");
@@ -35,6 +36,21 @@ const FlowElement = () => {
 	
 	const onEdgeUpdate = (oldEdge, newConnection) => setElements((els)=> updateEdge(oldEdge, newConnection, els));
 	const onConnect = (params) => setElements((els)=> addEdge(params,els));
+	const getNodeId = () => `randomnode_${+new Date()}`;
+
+	const onNodeAdd = useCallback((e,typeArg) => {
+		e.preventDefault();
+		const newNode = {
+			id: getNodeId(),
+			type: typeArg.toLowerCase(),
+			data: { type: typeArg, dateTime: '', subject: '', toEmail: '', fromEmail: '',body: '', location: '',reminder:''},
+			position: {
+				x: Math.random() * window.innerWidth - 200,
+				y: Math.random() * window.innerHeight -200,
+			},
+		};
+		setElements((els) => els.concat(newNode));
+	}, [setElements]);
 
 	const hideDivs = (h1,h2,h3) => {
 		setEmailClassName(h1);
@@ -132,7 +148,14 @@ const FlowElement = () => {
 	return (
 		<React.Fragment>
 			<ReactFlow  onEdgeUpdate={onEdgeUpdate} onConnect={onConnect} nodeTypes={{email: EmailNode, meeting: MeetingNode,reminder: ReminderNode}} onPaneClick={onPaneClicked} onElementClick={onNodeClicked} style={style} elements={elements} defaultZoom={1} minZoom={0.2} maxZoom={4}/>
+			<div className="add-buttons-div">
+				<button onClick={(e)=>onNodeAdd(e,'Email')}>Add Email </button>
+				<button onClick={(e) => onNodeAdd(e, 'Reminder')}>Add Reminder </button>
+				<button onClick={(e) => onNodeAdd(e, 'Meeting')}>Add Meeting </button>
+			</div>
 			
+
+
 			<div className={sliderClassName}>
 				<label className="slider-datetime">Date and Time:</label>
 				<input type="datetime-local" value={inputDateTime} onChange={(evt)=>setInputDateTime(evt.target.value)}/>
