@@ -7,14 +7,16 @@ import {EmailNode, ReminderNode, MeetingNode} from './components/CustomNodes';
 const style = {height: '80vh', background:'#FFB'}
 
 const initialElements = [
-	{ id: '1', type:'email', data: { type:'Email', label: '-', subject:'hello is everyone doing im doing great',fromEmail:'borapankaj901@gmail.com' ,toEmail: 'world, okok, hello, alright, nvm,kkadsfkjlka'}, position: { x: 100, y: 100 } },
-	{ id: '2', type: 'meeting', data: { type: 'Reminder',label: 'Node 3', toEmail: "okok",reminder:"" }, position: { x: 100, y: 200 } },
+	{ id: '1', type:'email', data: { type:'Email', dateTime:'', label: '-', subject:'hello is everyone doing im doing great',fromEmail:'borapankaj901@gmail.com' ,toEmail: 'world, okok, hello, alright, nvm,kkadsfkjlka'}, position: { x: 100, y: 100 } },
+	{ id: '2', type: 'reminder', data: { type: 'Reminder', dateTime: '', label: 'Node 3', toEmail: "okok",reminder:"" }, position: { x: 100, y: 220 } },
+	{ id: '3', type: 'meeting', data: { type: 'Meeting', dateTime: '', label: 'Node 3', toEmail: "okok", reminder: "" }, position: { x: 100, y: 310 } },
 	{ id: 'e1-2', source: '1', target: '2' },
 ];
 
 const FlowElement = () => {
 	const [elements, setElements] = useState(initialElements);
 
+	const [inputDateTime, setInputDateTime] = useState("");
 	const [inputToEmail, setInputToEmail] = useState("");
 	const [inputFromEmail, setInputFromEmail] = useState("");
 	const [inputSubject, setInputSubject] = useState("");
@@ -39,6 +41,7 @@ const FlowElement = () => {
 		setSliderClassName("info-slider");
 		setSelectedNode(element);
 		setInputToEmail(element.data.toEmail);
+		setInputDateTime(element.data.dateTime);
 
 		if(element.type==='email'){
 			setInputFromEmail(element.data.fromEmail);
@@ -74,6 +77,12 @@ const FlowElement = () => {
 			})
 		);
 	}
+
+	useEffect(() => {
+		if (selectedNode) {
+			changeNodeData({ dateTime: inputDateTime });
+		}
+	}, [inputDateTime, setElements]);
 
 	useEffect(() => {
 		if(selectedNode) {
@@ -117,6 +126,8 @@ const FlowElement = () => {
 			<ReactFlow nodeTypes={{email: EmailNode, meeting: MeetingNode,reminder: ReminderNode}} onPaneClick={onPaneClicked} onElementClick={onNodeClicked} style={style} elements={elements} defaultZoom={1.5} minZoom={0.2} maxZoom={4}/>
 			
 			<div className={sliderClassName}>
+				<label className="slider-datetime">Date and Time:</label>
+				<input type="datetime-local" value={inputDateTime} onChange={(evt)=>setInputDateTime(evt.target.value)}/>
 				<label className="slider-to-email">Recipients:</label>
 				<input value={inputToEmail} onChange={(evt) => setInputToEmail(evt.target.value)} />
 
