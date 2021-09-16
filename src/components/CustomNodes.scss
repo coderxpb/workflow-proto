@@ -8,16 +8,38 @@
 		height: 1.5rem;
 		padding: 0;
 		margin: 0;
-		border: 1px solid black;
+		
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
 }
 
-.email{
-	height: 7rem;
+.type-date{
+	display:flex;
+	justify-content: space-between;
+	padding-bottom: 5px;
 }
 
+.type{
+	font-weight: 700;
+}
+.datetime{
+	display: flex;
+	align-items: center;
+	font-size: .7rem;
+}
+.email{
+	background:rgb(153, 234, 245);
+}
+.meeting{
+	background:rgb(161, 245, 153);
+}
+.reminder{
+	background:rgb(196, 153, 245);
+}
+.bold{
+	font-weight: 500;
+}
 
 

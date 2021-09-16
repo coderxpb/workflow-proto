@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import ReactFlow from 'react-flow-renderer';
+import ReactFlow, {Controls, updateEdge, addEdge} from 'react-flow-renderer';
 import './FlowElement.scss';
 import {EmailNode, ReminderNode, MeetingNode} from './components/CustomNodes';
 
 
-const style = {height: '80vh', background:'#FFB'}
+const style = {height: '100vh', background:'#FFB'}
 
 const initialElements = [
 	{ id: '1', type:'email', data: { type:'Email', dateTime:'', label: '-', subject:'hello is everyone doing im doing great',fromEmail:'borapankaj901@gmail.com' ,toEmail: 'world, okok, hello, alright, nvm,kkadsfkjlka'}, position: { x: 100, y: 100 } },
@@ -31,6 +31,11 @@ const FlowElement = () => {
 	const [meetingClassName, setMeetingClassName] = useState("hidden-div");
 	const [reminderClassName, setReminderClassName] = useState("hidden-div");
 
+	const onLoad = (reactFlowInstance) => reactFlowInstance.fitView();
+	
+	const onEdgeUpdate = (oldEdge, newConnection) => setElements((els)=> updateEdge(oldEdge, newConnection, els));
+	const onConnect = (params) => setElements((els)=> addEdge(params,els));
+
 	const hideDivs = (h1,h2,h3) => {
 		setEmailClassName(h1);
 		setMeetingClassName(h2);
@@ -38,12 +43,13 @@ const FlowElement = () => {
 	}
 
 	const onNodeClicked = (e, element) => {
-		setSliderClassName("info-slider");
+		
 		setSelectedNode(element);
 		setInputToEmail(element.data.toEmail);
 		setInputDateTime(element.data.dateTime);
 
 		if(element.type==='email'){
+			setSliderClassName("info-slider email-div");
 			setInputFromEmail(element.data.fromEmail);
 			setInputSubject(element.data.subject);
 			setInputBody(element.data.body);
@@ -51,11 +57,13 @@ const FlowElement = () => {
 		}
 
 		if (element.type === 'meeting') {
+			setSliderClassName("info-slider meeting-div");
 			setInputLocation(element.data.location);
 			hideDivs("hidden-div","visible-div",  "hidden-div");
 		}
 
 		if (element.type === 'reminder') {
+			setSliderClassName("info-slider reminder-div");
 			setInputReminderText(element.data.reminder);
 			hideDivs("hidden-div", "hidden-div","visible-div");
 		}
@@ -123,7 +131,7 @@ const FlowElement = () => {
 	
 	return (
 		<React.Fragment>
-			<ReactFlow nodeTypes={{email: EmailNode, meeting: MeetingNode,reminder: ReminderNode}} onPaneClick={onPaneClicked} onElementClick={onNodeClicked} style={style} elements={elements} defaultZoom={1.5} minZoom={0.2} maxZoom={4}/>
+			<ReactFlow  onEdgeUpdate={onEdgeUpdate} onConnect={onConnect} nodeTypes={{email: EmailNode, meeting: MeetingNode,reminder: ReminderNode}} onPaneClick={onPaneClicked} onElementClick={onNodeClicked} style={style} elements={elements} defaultZoom={1} minZoom={0.2} maxZoom={4}/>
 			
 			<div className={sliderClassName}>
 				<label className="slider-datetime">Date and Time:</label>
@@ -137,7 +145,7 @@ const FlowElement = () => {
 					<label className="slider-subject">Subject:</label>
 					<input value={inputSubject} onChange={(evt) => setInputSubject(evt.target.value)} />
 					<label className="slider-body">Body:</label>
-					<input value={inputBody} onChange={(evt) => setInputBody(evt.target.value)} />
+					<input type="textbox" value={inputBody} onChange={(evt) => setInputBody(evt.target.value)} />
 				</div>
 
 				<div className={meetingClassName}>
