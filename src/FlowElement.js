@@ -50,6 +50,8 @@ const FlowElement = () => {
 			},
 		};
 		setElements((els) => els.concat(newNode));
+		setSelectedNode(newNode);
+		showMenu(newNode);
 	}, [setElements]);
 
 	const hideDivs = (h1,h2,h3) => {
@@ -59,12 +61,16 @@ const FlowElement = () => {
 	}
 
 	const onNodeClicked = (e, element) => {
-		
 		setSelectedNode(element);
+		showMenu(element);
+
+	}
+
+	const showMenu = (element) =>{
 		setInputToEmail(element.data.toEmail);
 		setInputDateTime(element.data.dateTime);
 
-		if(element.type==='email'){
+		if (element.type === 'email') {
 			setSliderClassName("info-slider email-div");
 			setInputFromEmail(element.data.fromEmail);
 			setInputSubject(element.data.subject);
@@ -75,13 +81,13 @@ const FlowElement = () => {
 		if (element.type === 'meeting') {
 			setSliderClassName("info-slider meeting-div");
 			setInputLocation(element.data.location);
-			hideDivs("hidden-div","visible-div",  "hidden-div");
+			hideDivs("hidden-div", "visible-div", "hidden-div");
 		}
 
 		if (element.type === 'reminder') {
 			setSliderClassName("info-slider reminder-div");
 			setInputReminderText(element.data.reminder);
-			hideDivs("hidden-div", "hidden-div","visible-div");
+			hideDivs("hidden-div", "hidden-div", "visible-div");
 		}
 	}
 
