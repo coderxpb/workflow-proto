@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/workflow-proto/static/css/main.deaca3e4.chunk.css",
+    "main.js": "/workflow-proto/static/js/main.d1f1f3b5.chunk.js",
+    "main.js.map": "/workflow-proto/static/js/main.d1f1f3b5.chunk.js.map",
+    "runtime-main.js": "/workflow-proto/static/js/runtime-main.039cb3f9.js",
+    "runtime-main.js.map": "/workflow-proto/static/js/runtime-main.039cb3f9.js.map",
+    "static/js/2.a507b00f.chunk.js": "/workflow-proto/static/js/2.a507b00f.chunk.js",
+    "static/js/2.a507b00f.chunk.js.map": "/workflow-proto/static/js/2.a507b00f.chunk.js.map",
+    "index.html": "/workflow-proto/index.html",
+    "static/css/main.deaca3e4.chunk.css.map": "/workflow-proto/static/css/main.deaca3e4.chunk.css.map",
+    "static/js/2.a507b00f.chunk.js.LICENSE.txt": "/workflow-proto/static/js/2.a507b00f.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.039cb3f9.js",
+    "static/js/2.a507b00f.chunk.js",
+    "static/css/main.deaca3e4.chunk.css",
+    "static/js/main.d1f1f3b5.chunk.js"
+  ]
+}
